@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+     header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>LOGIN</h1>
+</header>
+  <div class="container">
+    <h2>Login</h2>
+    <form action="/login" method="post">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control"  name ="username" placeholder="Enter username" required>
+        <p style="font-style: italic; color: red;">{{.usernameErr}}</p>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control"  name="password" placeholder="Enter password" required>
+        <p style="font-style: italic; color: red;">{{.passwordErr}}</p>
+      </div>
+      <button type="submit"  class="btn btn-primary">Login</button>
+      <a href="./signup">SignUp</a>
+    </form>
+    <p style="font-style: italic; color: red;">{{.tokenerr}}</p>
+  </div>
+</body>
+</html>

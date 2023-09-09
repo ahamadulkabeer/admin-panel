@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <style>
+        /* Reset some default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.1s;
+            border: none;
+        }
+
+        /* Basic styles */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 31px;
+        }
+        nav {
+            background-color: #008CBA;
+            color: white;
+            padding: 25px;
+            position: sticky;
+            top: 0;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+        }
+        nav li {
+            margin-right: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #ff6600;
+        }
+        main {
+            padding: 20px;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* User card styles */
+        .user-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .user-card-info {
+            margin-bottom: 10px;
+        }
+        .user-card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Button styles */
+        .btn {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #ff6600;
+        }
+        .btn-disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+        .search-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px;
+        }
+
+        #search-input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 20px 0 0 20px;
+        }
+
+        #search-button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #008CBA;
+        color: white;
+        border-radius: 0px 20px 20px 0px;
+        cursor: pointer;
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <h1>USER LIST</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="./adminhome">Home</a></li>
+            <li><a href="./adminprofile">Profile</a></li>
+            <li><a href="./userlist?page={{.currentPage}}">User List</a></li>
+            <li><a href="./newuser">Add User</a></li>
+            <li><a href="./logout">LogOut</a></li>
+        </ul>
+    </nav>
+    <main>
+        <p>page : {{.currentPage}}</p>
+        <div>
+            <div class="search-container">
+                <form id="search-form" action="./userlist?page={{.currentPage}}&search=true" method="POST">
+                    <input type="text" id="search-input" name="searchword" placeholder = "Search..." value = "{{.searchWord}}">
+                    <button type="submit"  id="search-button">Search</button>
+                </form>
+            </div>            
+            <div class="user-card">
+                <table class="table table-dark table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sl</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Created date</th>
+                            <th scope="col">User Name</th>
+                            <th scope="col">Email address</th>
+                            <th scope="col">Password</th>
+                            <th scope="col">permission</th>
+                            <th scope="col">Admin</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{range $index, $data := .data}}
+                        <tr>
+                            <td>{{index $.userindex $index}}</td>
+                            <td>{{.Id}}</td>
+                            <td>2023-04-17 20:01:07.288162</td>
+                            <td>{{.Username}}</td>
+                            <td>{{.Email}}</td>
+                            <td>****</td>
+                            <td>{{.Permission}}</td>
+                            <td>{{.Admin}}</td>
+                            <td><button class="btn"><a href="./edit/?id={{.Id}}&page={{$.currentPage}}&search={{$.search}}&word={{$.searchWord}}" method ="get">Edit</a></button></td>
+                            <td><button class="btn" ><a href="./delete/?id={{.Id}}&page={{$.currentPage}}&search={{$.search}}&word={{$.searchWord}}">Delete</a></button></td>
+                        </tr>
+                        {{end}}
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination-container">
+                {{if le .prvPage 0}}
+                <button class="btn btn-disabled" disabled >Prev page</button>
+            {{else}}
+
+            <button class="btn">
+                <a  href="/Newpage?page={{.prvPage}}&search={{.search}}&word={{.searchWord}}">Prev page</a>
+            </button>
+            {{end}}
+            {{if gt .nextPage .lastPage}}
+            <button class="btn btn-disabled" disabled >Next page</button>
+            {{else}}
+            <button class="btn" >
+                <a href="/Newpage?page={{.nextPage}}&search={{.search}}&word={{.searchWord}}" >Next page</a> 
+            </button>
+            {{end}}
+            </div> 
+        </div>
+    </main>
+   
+</body>
+</html>

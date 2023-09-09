@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+    <style>
+        /* Reset some default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Basic styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 8px;
+        }
+        input[type="text"], input[type="email"], input[type="password"], input[type="checkbox"], select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-bottom: 15px;
+        }
+        input[type="submit"] {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #ff6600;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+        nav {
+            background-color: #008CBA; /* Updated color */
+            color: white;
+            padding: 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+        }
+        nav li {
+            margin-right: 20px;
+        }
+        /* Update link styles */
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #ff6600; /* Hover color */
+        }
+        button {
+            justify-self: center;
+            align-self: center;
+        }
+
+        /* Adjust checkbox alignment */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .cancel-button {
+            background-color: #ccc;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px; /* Adjust font size as needed */
+        }
+
+        .update-button {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px; /* Adjust font size as needed */
+        }
+
+        .update-button:hover {
+            background-color: #ff6600;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Edit ser</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="./adminhome">Home</a></li>
+            <li><a href="./adminprofile">Profile</a></li>
+            <li><a href="./userlist">User List</a></li>
+            <li><a href="./newuser">Add User</a></li>
+            <li><a href="./logout">LogOut</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h2>Edit User</h2>
+    
+
+        <p name = "id">ID : {{.user.Id}}</p>
+        <form action="./update?id={{.user.Id}}&search={{.search}}&word={{.searchWord}}&page={{.page}}" method="post" >
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username"  value="{{.user.Username}}" required>
+
+            <p style="font-style: italic; color: red;">{{.duplicateUser}}</p>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{.user.Email}}"  >
+
+            <p style="font-style: italic; color: red;">{{.duplicateEmail}}</p>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" value="{{.user.Password}}" required>
+
+            <div class="checkbox-container">
+                <input type="checkbox" id="admin" name="admin" value = "true" {{if .user.Admin}}checked{{end}}>
+                <label for="admin">__Admin</label>
+            </div>
+            <div class="submit-cancel">
+                <button class="cancel-button" type="button" onclick="window.location.href='./Newpage?page={{.page}}&search={{.search}}&word={{.searchWord}}'" method = "POST">Cancel</button>
+               <input class="update-button" type="submit" value="Update User">
+            </div>
+            
+          
+        </form>
+        <p style="font-style: italic; color: black;">{{.updated}}</p>
+    </div>
+</body>
+</html>
